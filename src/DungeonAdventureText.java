@@ -65,8 +65,8 @@ public class DungeonAdventureText {
                     totalDamageTaken = (totalDamageTaken + damageTaken);
 
                     System.out.println("--------------------------------------------------");
-                    System.out.println("\t> You strike the " + enemy + " LVL" + enemyLevel + " for " + damageDealt + " damage!");
-                    System.out.println("\t> You receive " + damageTaken + " in retaliation!");
+                    System.out.printf("\t> You strike the %s LVL%s for %s damage!", enemy, enemyLevel, damageDealt);
+                    System.out.printf("\n\t> You receive %s in retaliation!\n", damageTaken);
 
                     if(health < 1) {
                         System.out.println("--------------------------------------------------");
@@ -99,7 +99,7 @@ public class DungeonAdventureText {
                 }
                 else if(input.equals("3")) {
                     System.out.println("--------------------------------------------------");
-                    System.out.println("\tYou run away from from " + enemy + " LVL" + enemyLevel + "!");
+                    System.out.printf("\tYou run away from from %s LVL %s!\n", enemy, enemyLevel);
                     totalRun ++;
                     continue GAME;
                 }
@@ -118,12 +118,12 @@ public class DungeonAdventureText {
 
             playerExp ++;
             System.out.println("--------------------------------------------------");
-            System.out.println(" # " + enemy + " LVL" + enemyLevel + " was defeated!");
+            System.out.printf(" # %s LVL %s was defeated!\n", enemy, enemyLevel);
 
             if(rand.nextInt(100) < healthPotionDropChance) {
                 numHealthPotions ++;
-                System.out.println(" # The " + enemy + " LVL" + enemyLevel + " has dropped a health potion!");
-                System.out.println(" # You now have " + numHealthPotions + " health potion(s).");
+                System.out.printf("\n # The %s LVL%s has dropped a health potion!", enemy, enemyLevel);
+                System.out.printf("\n # You now have %s health potion(s).", numHealthPotions);
             }
 
             if(playerExp == levelUp) {
@@ -132,7 +132,7 @@ public class DungeonAdventureText {
                 playerLevel ++;
                 levelUp = (levelUp * 2);
                 System.out.println("--------------------------------------------------");
-                System.out.println("\nYou've reached level " + playerLevel + "! You can now enter deeper into the dungeon!\n");
+                System.out.printf("\n # You've reached level %s! You can now enter deeper into the dungeon! # \n", playerLevel);
 
                 // Player gets stronger
                 attackDamage = (attackDamage + (attackDamage / 2));
@@ -145,9 +145,9 @@ public class DungeonAdventureText {
 
             }
             else {
-                System.out.println(" # You gained 1 EXP (" + playerExp + " of " + levelUp + " for level up)");
+                System.out.printf("\n # You gained 1 EXP (%s of %s for level up)", playerExp, levelUp);
             }
-            System.out.println(" # You have " + health + " HP left.");
+            System.out.printf("\n # You have %s HP left.\n", health);
             System.out.println("--------------------------------------------------");
             System.out.println("What would you like to do now?");
             System.out.println("1. Continue fighting.");
@@ -163,22 +163,22 @@ public class DungeonAdventureText {
 
             if(input.equals("1")) {
                 System.out.println("--------------------------------------------------");
-                System.out.println("\nYou continue on your adventure!");
+                System.out.println("You continue on your adventure!");
             }
             else if(input.equals("2")) {
                 System.out.println("--------------------------------------------------");
-                System.out.println("\nYou exit the dungeon, victorious in your adventure!\n\n");
+                System.out.println("You exit the dungeon, victorious in your adventure!");
                 break;
             }
         }
         System.out.println("STATS:");
         System.out.println("--------------------------------------------------");
-        System.out.println("You reached: Level " + playerLevel + ".");
-        System.out.println("You encountered: " + numEnemiesEncountered + " enemies.");
-        System.out.println("You used: " + numPotionsUsed + " health potions.");
-        System.out.println("You ran away: " + totalRun + " time(s).");
-        System.out.println("You dealt a total of: " + totalDamageDealt + " damage.");
-        System.out.println("You received a total of: " + totalDamageTaken + " damage.");
+        System.out.printf("You reached: Level %s.\n", playerLevel);
+        System.out.printf("You encountered: %s enemies.\n", numEnemiesEncountered);
+        System.out.printf("You used: %s health potions.\n", numPotionsUsed);
+        System.out.printf("You ran away: %s time(s).\n", totalRun);
+        System.out.printf("You dealt a total of: %s damage.\n", totalDamageDealt);
+        System.out.printf("You received a total of: %s damage.\n", totalDamageTaken);
         System.out.println();
         System.out.println("########################");
         System.out.println("# THANKS FOR PLAYING!! #");
