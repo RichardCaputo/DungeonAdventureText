@@ -88,9 +88,7 @@ public class DungeonAdventureText {
                             numHealthPotions --;
                             numPotionsUsed ++;
                             System.out.println("--------------------------------------------------");
-                            System.out.println("\t> You drink a health potion, healing yourself for " + healthPotionHealAmount + "."
-                                    + "\n\t> You now have " + health + " HP."
-                                    + "\n\t> You have " + numHealthPotions + " health potions left.\n");
+                            System.out.printf("\n\t> You drink a health potion, healing yourself for %s .\n\t> You now have %s HP.\n\t> You have %s health potions left.\n", healthPotionHealAmount, health, numHealthPotions);
                         }
                     }
                     else {
