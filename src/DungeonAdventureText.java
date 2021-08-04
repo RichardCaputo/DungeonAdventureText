@@ -9,24 +9,20 @@ public class DungeonAdventureText {
         Scanner in = new Scanner(System.in);
         Random rand = new Random();
 
-        // Enemy Variables
-        /*String[] enemies = {
-                "Skeleton", "Zombie", "Guardian", "Assassin", "Ogre",
-                "Troll", "Phantom", "Witch", "Wizard", "Medusa", "Bat" };*/
+        // Enemy objects
         Enemy[] enemies = {
-                new Enemy("Skeleton"),
-                new Enemy("Zombie"),
-                new Enemy("Guardian"),
-                new Enemy("Assassin"),
-                new Enemy("Ogre"),
-                new Enemy("Troll"),
-                new Enemy("Phantom"),
-                new Enemy("Witch"),
-                new Enemy("Wizard"),
-                new Enemy("Gorgon"),
-                new Enemy("Bat"),
+                new Enemy("Skeleton", "bone", 1, false, false),
+                new Enemy("Zombie", "arm", 1, false, false),
+                new Enemy("Guardian", "staff", 1, false, false),
+                new Enemy("Assassin", "dagger", 1, false, false),
+                new Enemy("Ogre", "club", 1, true, false),
+                new Enemy("Troll", "mace", 1, true, false),
+                new Enemy("Phantom", "ectoplasm", 1, true, false),
+                new Enemy("Witch", "broom", 1, false, false),
+                new Enemy("Wizard", "staff", 1, false, false),
+                new Enemy("Gorgon", "claws", 1, true, false),
+                new Enemy("Bat", "fangs", 1, false, true),
         };
-        int enemyLevel = 1;
         int maxEnemyHealth = 75;
         int enemyAttackDamage = 25;
         int numEnemiesEncountered = 0;
@@ -56,8 +52,7 @@ public class DungeonAdventureText {
 
             int enemyHealth = rand.nextInt(maxEnemyHealth);
             Enemy enemy = enemies[rand.nextInt(enemies.length)];
-            //String enemy = Enemies.type;
-            System.out.println("\t# " + enemy.getType() + " LVL" + enemyLevel + " has appeared!");
+            System.out.println("\t# " + enemy.getType() + " LVL" + enemy.getLevel() + " has appeared!");
             numEnemiesEncountered ++;
 
             label:
@@ -83,8 +78,8 @@ public class DungeonAdventureText {
                         totalDamageTaken = (totalDamageTaken + damageTaken);
 
                         System.out.println("--------------------------------------------------");
-                        System.out.printf("\t> You strike the %s LVL%s for %s damage!", enemy.getType(), enemyLevel, damageDealt);
-                        System.out.printf("\n\t> You receive %s in retaliation!\n", damageTaken);
+                        System.out.printf("\t> You strike the %s LVL%s for %s damage!", enemy.getType(), enemy.getLevel(), damageDealt);
+                        System.out.printf("\n\t> The %s retaliates with %s resulting in %s damage!\n", enemy.getType(), enemy.getWeapon(), damageTaken);
 
                         if (health < 1) {
                             System.out.println("--------------------------------------------------");
@@ -105,7 +100,7 @@ public class DungeonAdventureText {
                                 numHealthPotions--;
                                 numPotionsUsed++;
                                 System.out.println("--------------------------------------------------");
-                                System.out.printf("\t> You drink a health potion, healing yourself for %s ." +
+                                System.out.printf("\t> You drank a health potion, healing yourself for %s ." +
                                                 "\n\t> You now have %s HP.\n\t> You have %s health potions left.\n",
                                         healthPotionHealAmount, health, numHealthPotions);
                             }
@@ -118,7 +113,7 @@ public class DungeonAdventureText {
                         break;
                     case "3":
                         System.out.println("--------------------------------------------------");
-                        System.out.printf("\tYou run away from from %s LVL %s!\n", enemy.getType(), enemyLevel);
+                        System.out.printf("\tYou run away from from %s LVL %s!\n", enemy.getType(), enemy.getLevel());
                         totalRun++;
                         continue GAME;
                     default:
@@ -138,12 +133,12 @@ public class DungeonAdventureText {
             playerExp ++;
             System.out.println("--------------------------------------------------");
             System.out.println(" # ****************************** # ");
-            System.out.printf(" # %s LVL %s was defeated!\n", enemy.getType(), enemyLevel);
+            System.out.printf(" # %s LVL %s was defeated!\n", enemy.getType(), enemy.getLevel());
             System.out.println(" # ****************************** # ");
 
             if(rand.nextInt(100) < healthPotionDropChance) {
                 numHealthPotions ++;
-                System.out.printf("\t>The %s LVL%s has dropped a health potion!", enemy.getType(), enemyLevel);
+                System.out.printf("\t>The %s LVL%s has dropped a health potion!", enemy.getType(), enemy.getLevel());
                 System.out.printf("\n\t>You now have %s health potion(s).", numHealthPotions);
             }
 
@@ -164,7 +159,7 @@ public class DungeonAdventureText {
                 // Enemies get stronger
                 enemyAttackDamage = (enemyAttackDamage + (attackDamage / 4));
                 maxEnemyHealth = (maxEnemyHealth + (maxEnemyHealth / 4));
-                enemyLevel ++;
+                for(Enemy enemyObject : enemies) enemyObject.incrementLevel();
 
             }
             else {
