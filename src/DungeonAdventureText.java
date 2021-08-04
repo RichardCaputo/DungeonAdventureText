@@ -24,7 +24,7 @@ public class DungeonAdventureText {
                 new Enemy("Bat", "fangs", 1, false, true),
         };
         int maxEnemyHealth = 75;
-        int enemyAttackDamage = 25;
+        int enemyAttackDamage = 5;
         int numEnemiesEncountered = 0;
 
         // Player Variables
@@ -36,7 +36,7 @@ public class DungeonAdventureText {
         int levelUp = (playerLevel * 10);
         int numHealthPotions = 3;
         int healthPotionHealAmount = 30;
-        int healthPotionDropChance = 50; // Percentage
+        int healthPotionDropChance = 75; // Percentage
         int numPotionsUsed = 0;
         int totalDamageDealt = 0;
         int totalDamageTaken = 0;
@@ -74,8 +74,8 @@ public class DungeonAdventureText {
 
                         enemyHealth -= damageDealt;
                         health -= damageTaken;
-                        totalDamageDealt = (totalDamageDealt + damageDealt);
-                        totalDamageTaken = (totalDamageTaken + damageTaken);
+                        totalDamageDealt += damageDealt;
+                        totalDamageTaken += damageTaken;
 
                         System.out.println("--------------------------------------------------");
                         System.out.printf("\t> You strike the %s LVL%s for %s damage!", enemy.getType(), enemy.getLevel(), damageDealt);
@@ -86,12 +86,28 @@ public class DungeonAdventureText {
                             System.out.println("\t> You have taken too much damage, you are too weak to go on...");
                             break label;
                         }
+
+                        // Enemy Emotions
+                        if (damageDealt >= 25 && enemyHealth > 0) {
+                            for(Enemy enemyObject : enemies) enemyObject.setAngry();
+                            System.out.println("--------------------------------------------------");
+                            System.out.printf("\t> The %s LVL%s has become angry!\n", enemy.getType(), enemy.getLevel());
+                        }
+                        else if (enemyHealth <= 10 && enemyHealth > 0) {
+                            for(Enemy enemyObject : enemies) enemyObject.setScared();
+                            System.out.println("--------------------------------------------------");
+                            System.out.printf("\t> The %s LVL%s has become scared!\n", enemy.getType(), enemy.getLevel());
+                        }
+//                        else {
+//                            break label;
+//                        }
+
                         break;
                     case "2":
                         if (numHealthPotions > 0) {
                             if (health == maxPlayerHealth) {
                                 System.out.println("--------------------------------------------------");
-                                System.out.println("You have full health already!");
+                                System.out.println("\t> You have full health already!");
                             } else {
                                 health += healthPotionHealAmount;
                                 if (health > maxPlayerHealth) {
@@ -113,7 +129,7 @@ public class DungeonAdventureText {
                         break;
                     case "3":
                         System.out.println("--------------------------------------------------");
-                        System.out.printf("\tYou run away from from %s LVL %s!\n", enemy.getType(), enemy.getLevel());
+                        System.out.printf("\tYou run away from from %s LVL%s!\n", enemy.getType(), enemy.getLevel());
                         totalRun++;
                         continue GAME;
                     default:
@@ -133,7 +149,7 @@ public class DungeonAdventureText {
             playerExp ++;
             System.out.println("--------------------------------------------------");
             System.out.println(" # ****************************** # ");
-            System.out.printf(" # %s LVL %s was defeated!\n", enemy.getType(), enemy.getLevel());
+            System.out.printf(" # %s LVL%s was defeated!\n", enemy.getType(), enemy.getLevel());
             System.out.println(" # ****************************** # ");
 
             if(rand.nextInt(100) < healthPotionDropChance) {
@@ -153,19 +169,19 @@ public class DungeonAdventureText {
                 System.out.println("--------------------------------------------------");
 
                 // Player gets stronger
-                attackDamage = (attackDamage + (attackDamage / 2));
-                maxPlayerHealth = (maxPlayerHealth + (maxPlayerHealth / 2));
+                attackDamage += (attackDamage / 2);
+                maxPlayerHealth += (maxPlayerHealth / 2);
 
                 // Enemies get stronger
-                enemyAttackDamage = (enemyAttackDamage + (attackDamage / 4));
-                maxEnemyHealth = (maxEnemyHealth + (maxEnemyHealth / 4));
+                enemyAttackDamage += (attackDamage / 4);
+                maxEnemyHealth += (maxEnemyHealth / 4);
                 for(Enemy enemyObject : enemies) enemyObject.incrementLevel();
 
             }
             else {
                 System.out.printf("\n\t>You gained 1 EXP (%s of %s for level up)", playerExp, levelUp);
             }
-            System.out.printf("\n\t>You have %s HP left.\n", health);
+            System.out.printf("\t>You have %s HP left.\n", health);
             System.out.println("--------------------------------------------------");
             System.out.println("What would you like to do now?");
             System.out.println("1. Continue fighting.");

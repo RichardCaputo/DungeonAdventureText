@@ -37,4 +37,12 @@ public class Enemy {
     public void incrementLevel() {
         this.level++;
     }
+
+    public void setAngry() {
+        this.angry = true;
+    }
+
+    public void setScared() {
+        this.scared = true;
+    }
 }
