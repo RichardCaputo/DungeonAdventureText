@@ -26,6 +26,7 @@ public class DungeonAdventureText {
         int maxEnemyHealth = 75;
         int enemyAttackDamage = 5;
         int numEnemiesEncountered = 0;
+        int bossHealth = 300;
 
         // Player Variables
         int maxPlayerHealth = 100;
@@ -42,25 +43,24 @@ public class DungeonAdventureText {
         int totalDamageTaken = 0;
         int totalRun = 0;
 
-        boolean running = true;
-
         System.out.println("Welcome to the Dungeon!");
 
         GAME:
-        while(running) {
+        while(playerLevel < 5) {
             System.out.println("--------------------------------------------------");
 
             int enemyHealth = rand.nextInt(maxEnemyHealth);
+            int startEnemyHealth = enemyHealth;
             Enemy enemy = enemies[rand.nextInt(enemies.length)];
             System.out.println("\t# " + enemy.getType() + " LVL" + enemy.getLevel() + " has appeared!");
             numEnemiesEncountered ++;
 
-            label:
+            FIGHT:
             while(enemyHealth > 0) {
                 System.out.println("--------------------------------------------------");
                 System.out.println("\tYour Level: " + playerLevel);
-                System.out.println("\tYour HP: " + health);
-                System.out.println("\t" + enemy.getType() + "'s HP: " + enemyHealth);
+                System.out.printf("\tYour HP: %s of %s\n", health, maxPlayerHealth);
+                System.out.println("\t" + enemy.getType() + "'s HP: " + enemyHealth + " of " + startEnemyHealth);
                 System.out.println("\n\tWhat would you like to do?");
                 System.out.println("\t1. Attack");
                 System.out.println("\t2. Drink Health Potion");
@@ -69,7 +69,7 @@ public class DungeonAdventureText {
                 String input = in.nextLine();
                 switch (input) {
                     case "1":
-                        int damageDealt = rand.nextInt(attackDamage);
+                        int damageDealt = rand.nextInt(attackDamage); // I want to fix this
                         int damageTaken = rand.nextInt(enemyAttackDamage);
 
                         enemyHealth -= damageDealt;
@@ -84,7 +84,7 @@ public class DungeonAdventureText {
                         if (health < 1) {
                             System.out.println("--------------------------------------------------");
                             System.out.println("\t> You have taken too much damage, you are too weak to go on...");
-                            break label;
+                            break FIGHT;
                         }
 
                         // Enemy Emotions
@@ -98,9 +98,6 @@ public class DungeonAdventureText {
                             System.out.println("--------------------------------------------------");
                             System.out.printf("\t> The %s LVL%s has become scared!\n", enemy.getType(), enemy.getLevel());
                         }
-//                        else {
-//                            break label;
-//                        }
 
                         break;
                     case "2":
@@ -116,8 +113,11 @@ public class DungeonAdventureText {
                                 numHealthPotions--;
                                 numPotionsUsed++;
                                 System.out.println("--------------------------------------------------");
-                                System.out.printf("\t> You drank a health potion, healing yourself for %s ." +
-                                                "\n\t> You now have %s HP.\n\t> You have %s health potions left.\n",
+                                System.out.printf("""
+                                                \t> You drank a health potion, healing yourself for %s .
+                                                \t> You now have %s HP.
+                                                \t> You have %s health potions left.
+                                                """,
                                         healthPotionHealAmount, health, numHealthPotions);
                             }
                         } else {
@@ -162,7 +162,7 @@ public class DungeonAdventureText {
 
                 // Level Up
                 playerLevel ++;
-                levelUp = (levelUp * 2);
+                levelUp = (levelUp + 10);
                 System.out.println("\n--------------------------------------------------");
                 System.out.printf(" # You've reached LEVEL %s!!!\n", playerLevel);
                 System.out.println(" # You can now enter deeper into the dungeon!");
@@ -171,9 +171,10 @@ public class DungeonAdventureText {
                 // Player gets stronger
                 attackDamage += (attackDamage / 2);
                 maxPlayerHealth += (maxPlayerHealth / 2);
+                health = maxPlayerHealth;
 
                 // Enemies get stronger
-                enemyAttackDamage += (attackDamage / 4);
+                enemyAttackDamage += (attackDamage / 10);
                 maxEnemyHealth += (maxEnemyHealth / 4);
                 for(Enemy enemyObject : enemies) enemyObject.incrementLevel();
 
@@ -181,7 +182,7 @@ public class DungeonAdventureText {
             else {
                 System.out.printf("\n\t>You gained 1 EXP (%s of %s for level up)", playerExp, levelUp);
             }
-            System.out.printf("\t>You have %s HP left.\n", health);
+            System.out.printf("\n\t>You have %s HP left.\n", health);
             System.out.println("--------------------------------------------------");
             System.out.println("What would you like to do now?");
             System.out.println("1. Continue fighting.");
@@ -199,12 +200,99 @@ public class DungeonAdventureText {
                 System.out.println("--------------------------------------------------");
                 System.out.println("You continue on your adventure!");
             }
-            else if(input.equals("2")) {
+            if(input.equals("2")) {
                 System.out.println("--------------------------------------------------");
                 System.out.println("You exit the dungeon, victorious in your adventure!");
                 break;
             }
         }
+        System.out.println("--------------------------------------------------");
+        System.out.println("You've entered the heart of the dungeon!");
+        System.out.println("The temperature of the room is densely hot...");
+        System.out.println("From the darkness a fire kindles revealing a monstrous dragon!!");
+
+        BOSS:
+        while(bossHealth > 0) {
+            System.out.println("--------------------------------------------------");
+            System.out.println("\tYour Level: " + playerLevel);
+            System.out.println("\tYour HP: " + health + " of " + maxPlayerHealth);
+            System.out.println("\tDragon's HP: " + bossHealth + " of 300");
+            System.out.println("\n\tWhat would you like to do?");
+            System.out.println("\t1. Attack");
+            System.out.println("\t2. Drink Health Potion");
+            System.out.println("\t3. Run");
+
+            String input = in.nextLine();
+            switch (input) {
+                case "1":
+                    int damageDealt = rand.nextInt(attackDamage);
+                    int damageTaken = rand.nextInt(enemyAttackDamage);
+
+                    bossHealth -= damageDealt;
+                    health -= damageTaken;
+                    totalDamageDealt += damageDealt;
+                    totalDamageTaken += damageTaken;
+
+                    System.out.println("--------------------------------------------------");
+                    System.out.printf("\t> You strike the Dragon for %s damage!", damageDealt);
+                    System.out.printf("\n\t> The Dragon retaliates with fire breath resulting in %s damage!\n", damageTaken);
+
+                    if (health < 1) {
+                        System.out.println("--------------------------------------------------");
+                        System.out.println("\t> You have taken too much damage, you are too weak to go on...");
+                        break BOSS;
+                    }
+                    break;
+                case "2":
+                    if (numHealthPotions > 0) {
+                        if (health == maxPlayerHealth) {
+                            System.out.println("--------------------------------------------------");
+                            System.out.println("\t> You have full health already!");
+                        } else {
+                            health += healthPotionHealAmount;
+                            if (health > maxPlayerHealth) {
+                                health = maxPlayerHealth;
+                            }
+                            numHealthPotions--;
+                            numPotionsUsed++;
+                            System.out.println("--------------------------------------------------");
+                            System.out.printf("""
+                                            \t> You drank a health potion, healing yourself for %s .
+                                            \t> You now have %s HP.
+                                            \t> You have %s health potions left.
+                                            """,
+                                    healthPotionHealAmount, health, numHealthPotions);
+                        }
+                    } else {
+                        System.out.println("--------------------------------------------------");
+                        System.out.println("\t> You have no health potions left!" +
+                                "Keep fighting for a chance to get one!");
+                    }
+
+                    break;
+                case "3":
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("\tYou run away from the Dragon, and will forever be remembered as the coward that you are!");
+                    totalRun++;
+                    break BOSS;
+                default:
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("\tInvalid command!");
+                    break;
+            }
+            // GAME OVER
+            if (health < 1) {
+                System.out.println("--------------------------------------------------");
+                System.out.println("Game Over!");
+                System.out.println("--------------------------------------------------");
+                break;
+            }
+        }
+                System.out.println("--------------------------------------------------");
+                System.out.println(" # ********************************************* # ");
+                System.out.println(" # Congratulations! You've defeated the Dragon!! # ");
+                System.out.println(" # ********************************************* # ");
+
         System.out.println("STATS:");
         System.out.println("--------------------------------------------------");
         System.out.printf("You reached: LEVEL %s.\n", playerLevel);
