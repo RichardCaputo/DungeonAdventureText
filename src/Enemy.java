@@ -26,14 +26,6 @@ public class Enemy {
         return this.level;
     }
 
-    public boolean isAngry() {
-        return angry;
-    }
-
-    public boolean isScared() {
-        return scared;
-    }
-
     public void incrementLevel() {
         this.level++;
     }
@@ -45,4 +37,5 @@ public class Enemy {
     public void setScared() {
         this.scared = true;
     }
+
 }
