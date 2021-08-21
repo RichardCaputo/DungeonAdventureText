@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -28,6 +29,11 @@ public class DungeonAdventureText {
         int numEnemiesEncountered = 0;
         int bossHealth = 300;
 
+        Level[] levels = {
+                new Level(1, "Centaur"),
+                new Level(2, "Minotaur"),
+        };
+
         // Player Variables
         int maxPlayerHealth = 100;
         int health = 100;
@@ -57,6 +63,7 @@ public class DungeonAdventureText {
                 int startEnemyHealth = enemyHealth + 1;
                 boolean isBlocking = rand.nextBoolean();
                 Enemy enemy = enemies[rand.nextInt(enemies.length)];
+                Level level = levels[0];
                 System.out.println("\t# " + enemy.getType() + " LVL" + enemy.getLevel() + " has appeared!");
                 numEnemiesEncountered++;
 
@@ -170,45 +177,66 @@ public class DungeonAdventureText {
                     levelUp = (levelUp + 10);
                     System.out.println("\n--------------------------------------------------");
                     System.out.printf(" # You've reached LEVEL %s!!!\n", playerLevel);
+                    System.out.println(" # You are stronger and your health has been restored!");
                     System.out.println(" # You can now enter deeper into the dungeon!");
                     System.out.println("--------------------------------------------------");
+                    System.out.println("What would you like to do now?");
+                    System.out.printf("1. Go to floor %s.\n", level.getFloor() + 1);
+                    System.out.printf("2. Stay on floor %s.\n", level.getFloor());
+                    if (level.getFloor() >= 2) {
+                        System.out.printf("3. Return to floor %s.\n", level.getFloor() - 1);
+                    }
+                    System.out.println("0. Exit the dungeon.");
+
+                    String input = in.nextLine();
+
+                    switch (input) {
+                        case "1":
+                            System.out.printf("You've entered floor %s\n", level.getFloor() + 1);
+                            for (Level levelObject : levels) levelObject.floorUp();
+
+                            // Enemies get stronger
+                            enemyAttackDamage += (attackDamage / 10);
+                            maxEnemyHealth += (maxEnemyHealth / 4);
+                            for (Enemy enemyObject : enemies) enemyObject.incrementLevel();
+
+                            break;
+                        case "2":
+                            System.out.printf("You stay on floor %s\n", level.getFloor());
+                            break;
+                        case "3":
+                            if (level.getFloor() >= 2) {
+                                System.out.printf("You've entered floor %s\n", level.getFloor() - 1);
+                                for (Level levelObject : levels) levelObject.floorDown();
+
+                                // Enemies get stronger
+                                enemyAttackDamage -= (attackDamage / 10);
+                                maxEnemyHealth -= (maxEnemyHealth / 4);
+                                for (Enemy enemyObject : enemies) enemyObject.decrementLevel();
+
+                            }
+                            else {
+                                System.out.println("Invalid command!");
+                            }
+                            break;
+                        case "0":
+                            System.out.println("--------------------------------------------------");
+                            System.out.println("You exit the dungeon, victorious in your adventure!");
+                            break RUNNING;
+                        default:
+                            System.out.println("Invalid command!");
+                            break;
+                    }
 
                     // Player gets stronger
                     attackDamage += (attackDamage / 2);
                     maxPlayerHealth += (maxPlayerHealth / 2);
                     health = maxPlayerHealth;
 
-                    // Enemies get stronger
-                    enemyAttackDamage += (attackDamage / 10);
-                    maxEnemyHealth += (maxEnemyHealth / 4);
-                    for (Enemy enemyObject : enemies) enemyObject.incrementLevel();
-
                 } else {
-                    System.out.printf("\t>You gained 1 EXP (%s of %s for level up)", playerExp, levelUp);
-                }
-                System.out.printf("\n\t>You have %s HP left.\n", health);
-                System.out.println("--------------------------------------------------");
-                System.out.println("What would you like to do now?");
-                System.out.println("1. Continue fighting.");
-                System.out.println("2. Exit dungeon.");
-
-                String input = in.nextLine();
-
-                while (!input.equals("1") && !input.equals("2")) {
-                    System.out.println("--------------------------------------------------");
-                    System.out.println("Invalid command!");
-                    input = in.nextLine();
+                    System.out.printf("\t>You gained 1 EXP (%s of %s for level up)\n", playerExp, levelUp);
                 }
 
-                if (input.equals("1")) {
-                    System.out.println("--------------------------------------------------");
-                    System.out.println("You continue on your adventure!");
-                }
-                if (input.equals("2")) {
-                    System.out.println("--------------------------------------------------");
-                    System.out.println("You exit the dungeon, victorious in your adventure!");
-                    break RUNNING;
-                }
             }
 
             System.out.println("--------------------------------------------------");
