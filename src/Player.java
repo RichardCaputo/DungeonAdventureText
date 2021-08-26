@@ -1,10 +1,13 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class Player {
 
     Random rand = new Random();
+    Scanner scan = new Scanner(System.in);
 
     // Player Variables
+    private String playerName;
     private int maxPlayerHealth;
     private int health;
     private int attackDamage;
@@ -18,12 +21,13 @@ public class Player {
     private int totalRun;
     private int numEnemiesEncountered;
 
-    Player(int maxPlayerHealth, int health, int attackDamage, int playerLevel, int playerExp,
+    Player(String playerName, int maxPlayerHealth, int health, int attackDamage, int playerLevel, int playerExp,
            int numHealthPotions, int healthPotionHealAmount, int numPotionsUsed, int totalDamageDealt,
            int totalDamageTaken, int totalRun, int numEnemiesEncountered) {
+        this.playerName = playerName;
         this.maxPlayerHealth = maxPlayerHealth;
         this.health = health;
-        this.attackDamage = attackDamage;
+        this.attackDamage = rand.nextInt(attackDamage);
         this.playerLevel = playerLevel;
         this.playerExp = playerExp;
         this.numHealthPotions = numHealthPotions;
@@ -35,6 +39,13 @@ public class Player {
         this.numEnemiesEncountered = numEnemiesEncountered;
     }
 
+    public String setPlayerName() {
+        System.out.println("What is your name, warrior?");
+        return this.playerName = scan.nextLine();
+    }
+    public String getPlayerName() {
+        return this.playerName;
+    }
     public int getMaxPlayerHealth() {
         return this.maxPlayerHealth;
     }
@@ -56,24 +67,12 @@ public class Player {
             return this.health;
         }
     }
-    public int getAttackDamage() {
-        return this.attackDamage;
-    }
-    public int setAttackDamage() {
-        return this.attackDamage += (getAttackDamage() / 2);
-    }
-    public int getPlayerLevel() {
-        return this.playerLevel;
-    }
-    public int getPlayerExp() {
-        return this.playerExp;
-    }
-    public int setPlayerExp() {
-        return this.playerExp++;
-    }
-    public int getNumHealthPotions() {
-        return this.numHealthPotions;
-    }
+    public int getAttackDamage() { return this.attackDamage; }
+    public int setAttackDamage() { return attackDamage; }
+    public int getPlayerLevel() { return this.playerLevel; }
+    public int getPlayerExp() { return this.playerExp; }
+    public int setPlayerExp() { return this.playerExp++; }
+    public int getNumHealthPotions() { return this.numHealthPotions; }
     public int increaseNumHealthPotions() {
         return this.numHealthPotions++;
     }
@@ -103,7 +102,7 @@ public class Player {
         else {
             System.out.println("--------------------------------------------------");
             System.out.println("\t> You have no health potions left!" +
-                    "Keep fighting for a chance to get one!");
+                    " Keep fighting for a chance to get one!");
             return false;
         }
     }
@@ -119,46 +118,22 @@ public class Player {
             return getNumHealthPotions();
         }
     }
-    public int getHealthPotionHealAmount() {
-        return this.healthPotionHealAmount;
-    }
-    public int setHealthPotionHealAmount() {
-        return this.healthPotionHealAmount += (this.healthPotionHealAmount / 2);
-    }
-    public int getNumPotionsUsed() {
-        return this.numPotionsUsed;
-    }
-    public int setNumPotionsUsed() {
-        return this.numPotionsUsed++;
-    }
-    public int getTotalDamageDealt() {
-        return this.totalDamageDealt;
-    }
-    public int setTotalDamageDealt() {
-        return this.totalDamageDealt += this.attackDamage;
-    }
-    public int getTotalDamageTaken() {
-        return this.totalDamageTaken;
-    }
-    public int setTotalDamageTaken(int enemyAttack) {
-        return this.totalDamageTaken += enemyAttack;
-    }
-    public int getTotalRun() {
-        return this.totalRun;
-    }
-    public int setTotalRun() {
-        return this.totalRun++;
-    }
-    public int getNumEnemiesEncountered() {
-        return this.numEnemiesEncountered;
-    }
-    public int setNumEnemiesEncountered() {
-        return this.numEnemiesEncountered++;
-    }
+    public int getHealthPotionHealAmount() { return this.healthPotionHealAmount; }
+    public int setHealthPotionHealAmount() { return this.healthPotionHealAmount += (this.healthPotionHealAmount / 2); }
+    public int getNumPotionsUsed() { return this.numPotionsUsed; }
+    public int setNumPotionsUsed() { return this.numPotionsUsed++; }
+    public int getTotalDamageDealt() { return this.totalDamageDealt; }
+    public int setTotalDamageDealt() { return this.totalDamageDealt += this.attackDamage; }
+    public int getTotalDamageTaken() { return this.totalDamageTaken; }
+    public int setTotalDamageTaken(int enemyAttack) { return this.totalDamageTaken += enemyAttack; }
+    public int getTotalRun() { return this.totalRun; }
+    public int setTotalRun() { return this.totalRun++; }
+    public int getNumEnemiesEncountered() { return this.numEnemiesEncountered; }
+    public int setNumEnemiesEncountered() { return this.numEnemiesEncountered++; }
 
     public int levelUp() {
         setHealthPotionHealAmount();
-        setAttackDamage();
+        this.attackDamage += (getAttackDamage() / 2);
         setMaxPlayerHealth();
         return this.playerLevel++;
     }

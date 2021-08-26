@@ -21,7 +21,7 @@ public class Enemy {
         this.level = level;
         this.enemyHealth = rand.nextInt(enemyHealth - 4) + 5;
         this.startingHP = this.enemyHealth;
-        this.enemyAttackDamage = enemyAttackDamage;
+        this.enemyAttackDamage = rand.nextInt(enemyAttackDamage);
         this.enemyAttack = enemyAttack;
         this.angry = angry;
         this.scared = scared;
@@ -31,9 +31,7 @@ public class Enemy {
     public int getStartingHP() {
         return startingHP;
     }
-    public int setStartingHP() {
-        return startingHP += (startingHP / 4);
-    }
+    public int setStartingHP() { return startingHP += (startingHP / 4); }
     public String getType() {
         return type;
     }
@@ -45,6 +43,7 @@ public class Enemy {
     }
     public void incrementLevel() {
         this.level++;
+        this.enemyAttackDamage += (this.enemyAttackDamage / 10);
     }
     public void decrementLevel() {
         if (level > 0) {
@@ -63,9 +62,7 @@ public class Enemy {
     public int getEnemyAttackDamage() {
         return this.enemyAttackDamage;
     }
-    public int setEnemyAttackDamage() {
-        return this.enemyAttackDamage += (this.enemyAttackDamage / 10);
-    }
+    public int setEnemyAttackDamage() { return enemyAttackDamage; }
     public boolean setEnemyAttack() {
         return this.enemyAttack = rand.nextBoolean();
     }
