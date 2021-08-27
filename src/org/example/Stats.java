@@ -1,3 +1,5 @@
+package org.example;
+
 public class Stats {
 
     Stats(int playerLevel, int numEnemiesEncountered, int numPotionsUsed, int totalRun, int totalDamageDealt, int totalDamageTaken) {

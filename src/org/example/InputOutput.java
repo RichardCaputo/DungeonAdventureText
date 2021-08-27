@@ -1,3 +1,5 @@
+package org.example;
+
 public interface InputOutput {
 
     String receiveInput();

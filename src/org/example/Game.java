@@ -1,3 +1,5 @@
+package org.example;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,17 +11,17 @@ public class Game {
 
     // Enemy objects
     Enemy[] enemies = {
-            new Enemy("Skeleton", "bone", 1, 18, 3, true, false, false, false),
-            new Enemy("Zombie", "arm", 1, 28, 5, true, false, false, false),
-            new Enemy("Guardian", "staff", 1, 35, 8, true, false, false, true),
-            new Enemy("Assassin", "dagger", 1, 21, 7, true, false, false, true),
-            new Enemy("Ogre", "club", 1, 40, 10, true, true, false, false),
-            new Enemy("Troll", "mace", 1, 38, 9, true, true, false, false),
-            new Enemy("Phantom", "ectoplasm", 1, 23, 4, true, true, false, false),
-            new Enemy("Witch", "broom", 1, 20, 6, true, false, false, false),
-            new Enemy("Wizard", "staff", 1, 23, 7, true, false, false, true),
-            new Enemy("Gorgon", "claws", 1, 30, 7, true, true, false, false),
-            new Enemy("Bat", "fangs", 1, 15, 3, true, false, true, false),
+            new Enemy("Skeleton", "bone", 1, 18, 3, false, false, false),
+            new Enemy("Zombie", "arm", 1, 28, 5, false, false, false),
+            new Enemy("Guardian", "staff", 1, 35, 8, false, false, true),
+            new Enemy("Assassin", "dagger", 1, 21, 7, false, false, true),
+            new Enemy("Ogre", "club", 1, 40, 10, true, false, false),
+            new Enemy("Troll", "mace", 1, 38, 9, true, false, false),
+            new Enemy("Phantom", "ectoplasm", 1, 23, 4, true, false, false),
+            new Enemy("Witch", "broom", 1, 20, 6, false, false, false),
+            new Enemy("Wizard", "staff", 1, 23, 7, false, false, true),
+            new Enemy("Gorgon", "claws", 1, 30, 7, true, false, false),
+            new Enemy("Bat", "fangs", 1, 15, 3, false, true, false),
     };
 
     // Level objects
@@ -62,7 +64,7 @@ public class Game {
                 switch (input) {
                     case "1":
                         enemy.setIsBlocking();
-                        enemy.setEnemyAttack();
+                        enemy.getEnemyAttack();
                         enemy.setEnemyAttackDamage();
                         player.setAttackDamage();
                         if (enemy.getIsBlocking()) {
