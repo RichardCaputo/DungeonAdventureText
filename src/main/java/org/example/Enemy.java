@@ -36,7 +36,7 @@ public class Enemy {
      * @param maxBound the maximum number that will be returned.
      * @return an integer between maxBound and minBound.
      */
-    private int getRandomInt(int minBound, int maxBound) {
+    protected int getRandomInt(int minBound, int maxBound) {
         return rand.nextInt(maxBound);
     }
 
