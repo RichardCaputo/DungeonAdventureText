@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Game {
 
     // System objects
-    Scanner in = new Scanner(System.in);
+    ConsoleInputOutput in = new ConsoleInputOutput();
     Random rand = new Random();
 
     // Enemy objects
@@ -58,7 +58,7 @@ public class Game {
                 System.out.println("\t2. Drink Health Potion");
                 System.out.println("\t3. Run");
 
-                String input = in.nextLine();
+                String input = in.receiveInput();
                 switch (input) {
                     case "1":
                         enemy.setIsBlocking();
@@ -148,7 +148,7 @@ public class Game {
                 }
                 System.out.println("0. Exit the dungeon.");
 
-                String input = in.nextLine();
+                String input = in.receiveInput();
 
                 switch (input) {
                     case "1":
@@ -167,7 +167,7 @@ public class Game {
                             System.out.println("\t2. Drink Health Potion");
                             System.out.println("\t3. Run");
 
-                            input = in.nextLine();
+                            input = in.receiveInput();
 
                             switch (input) {
                                 case "1":
@@ -279,7 +279,7 @@ public class Game {
             System.out.println("\t2. Drink Health Potion");
             System.out.println("\t3. Run");
 
-            String input = in.nextLine();
+            String input = in.receiveInput();
             switch (input) {
                 case "1":
                     boss.setBossHealth(player.getAttackDamage());
