@@ -37,7 +37,7 @@ public class Enemy {
      * @return an integer between maxBound and minBound.
      */
     protected int getRandomInt(int minBound, int maxBound) {
-        return rand.nextInt(maxBound) + minBound;
+        return rand.nextInt(maxBound - minBound + 1) + minBound;
     }
 
     public int getStartingHP() {

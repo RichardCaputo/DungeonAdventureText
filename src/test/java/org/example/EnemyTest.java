@@ -13,10 +13,10 @@ class EnemyTest {
         Enemy enemy = new Enemy("","",10,10,10,false,false,false);
 
         // Act
-        int result = enemy.getRandomInt(0,1);
+        int result = enemy.getRandomInt(0,0);
 
         // Assert
-        assertTrue(result <= 1);
+        assertEquals(0, result);
     }
 
     @Test
